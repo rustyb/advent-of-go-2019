@@ -40,31 +40,62 @@ func convertArrayToInts(inputArray []string) []int {
 	return intArrayToReturn
 }
 
-func getFuelForEach(inputArray []int) []int {
-	intArrayToReturn := []int{}
+/**
+  The first step required to calculate the fuel following the formula
+  fuel = mass / 3 - 2
+**/
 
-	for _, ele := range inputArray {
-		moduleFuel := (ele / 3) - 2
+func calculateFuel(mass int) int {
+	return (mass / 3) - 2
+}
 
-		intArrayToReturn = append(intArrayToReturn, moduleFuel)
+/*
+  The second step requires to calculate the amount of extra fuel required to
+  carry the extra fuel. Treat  treat the fuel amount you just calculated as
+  the input mass and repeat the process, continuing until a fuel requirement
+  is zero or negative.
+*/
+
+func calculateAdditionalFuel(mass int) int {
+	totalFuel := 0
+
+	for {
+		fuel := calculateFuel(mass)
+		if fuel <= 0 {
+			return totalFuel
+		}
+		// still more fuel to carry
+		totalFuel += fuel
+
+		mass = calculateFuel(fuel)
+		if mass <= 0 {
+			return totalFuel
+		}
+		totalFuel += mass
 	}
-
-	return intArrayToReturn
 }
 
 // Problem requires to divide every number by 3 then subtract 2 and round down.
 
 func main() {
-	fmt.Println("Hello, World!")
 	stringArray := ReadFile("\n")
 	intArray := convertArrayToInts(stringArray)
-	fuelForEach := getFuelForEach(intArray)
-	fmt.Printf("%d\n", fuelForEach)
 
 	totalFuel := 0
-	for _, num := range fuelForEach {
-		totalFuel += num
+	for _, num := range intArray {
+		fuel := calculateFuel(num)
+		totalFuel += fuel
+	}
+
+	// Part 2 - calculate additional fuel required to carry fuel weight
+
+	sumFuelWithAdditional := 0
+
+	for _, num := range intArray {
+		fuel := calculateAdditionalFuel(num)
+		sumFuelWithAdditional += fuel
 	}
 
 	fmt.Printf("Total Fuel required to launch %d\n", totalFuel)
+	fmt.Printf("Total Fuel + Fuel for fuel weight required to launch %d\n", sumFuelWithAdditional)
 }
