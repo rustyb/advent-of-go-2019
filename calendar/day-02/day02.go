@@ -20,7 +20,6 @@ func ReadFile(delimeter string) []string {
 	stringSplit := strings.Split(fileContent, delimeter)
 
 	// To deal with the \n on the end of the file read in
-	fmt.Printf("%q\n", stringSplit[:len(stringSplit)-1])
 	return stringSplit[:len(stringSplit)-1]
 }
 
@@ -69,7 +68,6 @@ func runComputer(inputArray []int) []int {
 			input2 := section[2]
 			resultPosition := section[3]
 			arrayAfterRun[resultPosition] = arrayAfterRun[input1] + arrayAfterRun[input2]
-			// fmt.Println("add", input1+input2, "to pos:", resultPosition, arrayAfterRun)
 		}
 
 		// do multiplication
@@ -98,10 +96,7 @@ func main() {
 	strings := ReadFile(",")
 	inputNumbers := convertArrayToInts(strings)
 	fmt.Printf("Welcome to day 2")
-	// fmt.Printf("%d\n", inputNumbers)
 
-	// result := FixRun(12, 2, inputNumbers)
-	// fmt.Println(result)
 	// first part replace values in array
 	fixedArrayStep1 := replaceValueInArray(12, 1, inputNumbers)
 	fmt.Printf("%d\n", fixedArrayStep1)
