@@ -62,7 +62,6 @@ func runComputer(inputArray []int) []int {
 
 		section = arrayAfterRun[i : i+4]
 		operation := section[0]
-		fmt.Println("INSTR", i, section, operation)
 
 		// do addition
 		if operation == 1 {
@@ -88,6 +87,13 @@ func runComputer(inputArray []int) []int {
 	return arrayAfterRun
 }
 
+// Part 2 set the noun and verb at position 1, 2
+func setNounVerbInArray(noun int, verb int, runArray []int) []int {
+	nounSetArray := replaceValueInArray(noun, 1, runArray)
+	verbSetArray := replaceValueInArray(verb, 2, nounSetArray)
+	return verbSetArray
+}
+
 func main() {
 	strings := ReadFile(",")
 	inputNumbers := convertArrayToInts(strings)
@@ -106,4 +112,17 @@ func main() {
 	resultArray := runComputer(fixedArrayStep1)
 
 	fmt.Printf("Final result = > %d\n", resultArray[0])
+
+	// We need to try all the combinations for noun and verb
+	// between 0 and 100.
+	// What is 100 * noun + verb?
+	for noun := 0; noun < 100; noun++ {
+		for verb := 0; verb < 100; verb++ {
+			setArray := setNounVerbInArray(noun, verb, inputNumbers)
+			result := runComputer(setArray)[0]
+			if result == 19690720 {
+				fmt.Printf("Found a result == 19690720 => %d (%d %d)\n", 100*noun+verb, noun, verb)
+			}
+		}
+	}
 }
