@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"math"
 	"strconv"
 	"strings"
 )
@@ -170,6 +171,19 @@ func CrossingsShortestDistance(w1, w2 Wire) int {
 	// return 1
 }
 
+func CrossingsShortestSignal(w1, w2 Wire) int {
+	result := math.MaxInt32
+	for k := range w1.data {
+		if v2, ok := w2.data[k]; ok {
+			if k.X == 0 && k.Y == 0 {
+				continue
+			}
+			result = Min(result, w1.data[k]+v2)
+		}
+	}
+	return result
+}
+
 func main() {
 	println("Day 03")
 	wires := ReadFile("\n")
@@ -179,7 +193,9 @@ func main() {
 	w2 := LoadWire(wires[1])
 
 	shortestD := CrossingsShortestDistance(w1, w2)
+	quickestD := CrossingsShortestSignal(w1, w2)
 
 	println("shortest =", shortestD)
+	println("shortest =", quickestD)
 
 }
