@@ -1,3 +1,3 @@
-module calendar/day-01
+module github.com/rustyb/adventofcode2019
 
 go 1.17
